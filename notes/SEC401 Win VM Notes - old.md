@@ -57,7 +57,7 @@ get-service -displayname *defender*  | sort-object -property status, displayname
 $services = get-service |  ; $services | out-string -stream | select-string "update"
 $services = get-service |  sort-object -property status,displayname  ; $services | out-string -stream | select-string "update"
 
-Disabling windows firewall  with Powershell (the firewall service still running)
+Disabling windows update with Powershel. Two methods shown below.  The 1st on upsdartes the way the service starts up and the second just stops the service until it get started again (like a rebot)
 Set-Service -Name "wuauserv" -Status stopped -StartupType disabled (or automatic)
 Stop-Service -Name "wuauserv" -Force  (leaves the starttype set to automatic)
 
@@ -130,13 +130,14 @@ $ProgressPreference = 'SilentlyContinue'
 $feature_name = "Microsoft-Hyper-V-All"
 $feature_status = (Get-WindowsOptionalFeature -Online -FeatureName $feature_name).State
 If($feature_status -eq "Enabled") {
-	Write-Host $feature_name is $dev
+	Write-Host $feature_name is $feature_status
   Write-Host Disabling $feature_name
 	Disable-WindowsOptionalFeature -FeatureName $feature_name -norestart -online
 }
 else {
 	Write-Host $feature_name is $feature_status , no action required.
 }
+``
 
 ### Restart computer from PowerShell
 restart-computer
@@ -148,6 +149,7 @@ restart-computer
     [EnvironmentVariableTarget]::Machine)
 
 
+
 ### Docker Installation
 
 #### Download Docker
@@ -155,21 +157,10 @@ $download_url   = "hhttps://download.docker.com/win/static/stable/x86_64/docker-
 $outfile = "c:\temp\docker.zip"
 Invoke-WebRequest -Uri $download_url  -OutFile $outfile 
  
-```
 ### Enable Windows Containers
 ```
 Enable-WindowsOptionalFeature -FeatureName containers -norestart -online
-```
-
-
-### Create Docker Service
-### Run manually
-sc create Docker binPath= "\"c:\Program Files\docker\dockerd.exe\" -H npipe:////./pipe/mydocker -G \"Docker Users\" --exec-opt isolation=process --run-service start= delayed-auto"
-sc start docker 
-sc query docker\
-docker context create win --description "Windows process-isolation containers (Docker service)" --docker "host=npipe:////./pipe/mydocker" 
-"docker -c win ps" (should get back a table with no containers) 
-### End of Manual run
+``` 
 
 
 
@@ -189,6 +180,10 @@ New-ItemProperty -Path $RegistryKeyPath -Name AllowDevelopmentWithoutDevLicense 
 
 
 
+### Feature Related Commands
 
+(Get-WindowsOptionalFeature -Online -FeatureName 'Microsoft-Hyper-V-All').State
+Disable-WindowsOptionalFeature -online -FeatureName *Hyper* -All -norestart -online
+Enable-WindowsOptionalFeature –Online -FeatureName *Hyper* -All -norestart -online
 
 
