@@ -1,0 +1,28 @@
+<#
+Script description here
+#>
+
+
+winget uninstall {572E990E-67FD-4014-884C-A730BFC7E1D7}
+winget uninstall Microsoft.549981C3F5F10_8wekyb3d8bbwe
+winget uninstall Microsoft.BingNews_8wekyb3d8bbwe
+winget uninstall Microsoft.BingWeather_8wekyb3d8bbwe
+winget uninstall Microsoft.GamingApp_8wekyb3d8bbwe
+winget uninstall Microsoft.Getstarted_8wekyb3d8bbwe
+winget uninstall Microsoft.MicrosoftOfficeHub_8wekyb3d8bbwe
+winget uninstall Microsoft.MicrosoftOfficeHub_8wekyb3r
+winget uninstall Microsoft.MicrosoftSolitaireCollection
+winget uninstall Microsoft.MicrosoftSolitaireCollection_8wekyb3d8bbwe
+winget uninstall Microsoft.OneDrive
+winget uninstall Microsoft.OneDriveSync_8wekyb3d8bbwe
+winget uninstall Microsoft.People_8wekyb3d8bbwe
+winget uninstall Microsoft.WindowsCamera_8wekyb3d8bbwe
+winget uninstall Microsoft.Xbox.TCUI_8wekyb3d8bbwe
+winget uninstall Microsoft.XboxGameOverlay_8wekyb3d8bbwe
+winget uninstall Microsoft.XboxGamingOverlay_8wekyb3d8bbwe
+winget uninstall Microsoft.XboxIdentityProvider_8wekyb3d8bbwe
+winget uninstall Microsoft.XboxSpeechToTextOverlay_8wekyb3d8bbwe
+winget uninstall Microsoft.YourPhone_8wekyb3d8bbwe
+winget uninstall Microsoft.ZuneMusic_8wekyb3d8bbwe
+winget uninstall Microsoft.ZuneVideo_8wekyb3d8bbwe
+winget uninstall MicrosoftTeams_8wekyb3d8bbwe
