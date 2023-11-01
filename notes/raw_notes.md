@@ -49,7 +49,7 @@ get-services - lists all services
 get-service -name wdfilter, wuauserv, mpssvc,  *windefend*  | sort-object -property status, displayname  | format-table -property status, name, displayname, starttype, requiredservices -autosize
 
 All services matching the service displaynames in the list provided
-get-service -displayname *defender*  | sort-object -property status, displayname  | format-table -autosize
+get-service -displayname *defender*  *antivirus* | sort-object -property status, displayname  | format-table -autosize
 
 ```
 
