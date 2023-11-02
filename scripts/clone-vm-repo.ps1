@@ -2,21 +2,23 @@
 Script description here
 #>
 
-$ssh_dir              = "C:\Users\student\.ssh\"
 $repo_path            = "C:Temp\401_vm"
 $temp_install_dir     = "C:\Temp"
-$config_file_name     = "config"
+$ssh_dir              = $env:USERPROFILE + "\" + ".ssh"
 $ssh_key_name         = "id_rsa-401-vms.pub"
+$ssh_full_path        = $ssh_dir + "\" +  $ssh_key_name
+$config_full_path     = $ssh_dir + "\" +  "config"
 
 $config_file_contents = 
 @"
-Host *
+Host github.com
+User git
+IdentityFile ~/.ssh/for498_workbook_id_rsa
 StrictHostKeyChecking no
 UserKnownHostsFile /dev/null
 "@ 
 
-$ssh_key 					= 
-@"
+$ssh_key 					= @"
 -----BEGIN OPENSSH PRIVATE KEY-----
 b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
 NhAAAAAwEAAQAAAYEA0/ZtGG2EAy/Rdqppr56eQ3S/tdyTGGZTcr5yi420pNDxe70rm2Zx
@@ -58,7 +60,7 @@ uQYGLB3RIfqa0AAAAPc2VjNDAxLXZtcyByZXBvAQIDBA==
 "@
 
 
-# use here string to create a multi-line file.  There can't be in white space after the @" 
+# use here string to create a multi-line file.  There can't be any white space after the @" 
 
 # Create .ssh dir if it doesn't exit.
 If (!(test-path $ssh_dir)) {New-Item -ItemType Directory -Force -Path $ssh_dir}
@@ -67,14 +69,22 @@ If (!(test-path $ssh_dir)) {New-Item -ItemType Directory -Force -Path $ssh_dir}
 set-content -path (join-path $ssh_dir $ssh_key_name)  -value $ssh_key
 
 # create ssh config for 401_vms repo ssh commands
-set-content -path (join-path $ssh_dir $config_file_name) -value $config_file_contents
+set-content -path $ssh_full_path -value $ssh_key
 
-# Create temp installation dir
+# Create temp installation dir if if has not already been created
 If (!(test-path $temp_instal_dir)) {New-Item -ItemType Directory -Force -Path $temp_install_dir}
 
 # Remove vm repo if it already exists  delete the files in the dir but leave the folder
 If (!(test-path $repo_path)) {Remove-Item $repo_path -Recurse -Force}
 
+# Create ssh pub (read-only) key
+set-content -path $ssh_full_path -value $ssh_key
+
+# Create ssh config file
+set-content -path $config_full_path -value $config_file_contents
+
 ssh-keyscan github.com >> ~/.ssh/known_hosts
 git clone git@github.com:sans-sroc/sec401-vms.git $repo_path --quiet
+
+
 
